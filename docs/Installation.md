@@ -2,7 +2,7 @@
 
 ## Install (test environment)
 ```
-git clone git@github.com:parcelvalue/api-client.git
+git clone https://github.com/parcelvalue/api-client.git
 cd api-client
 cp .env.dist .env
 echo test > .env
@@ -32,4 +32,9 @@ composer test
 ### Run unit tests (testdox output)
 ```
 composer test:d
+```
+
+## Run all checks
+```
+composer all
 ```
