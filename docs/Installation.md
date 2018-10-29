@@ -1,10 +1,11 @@
 # Installation
 
-## Install
+## Install (test environment)
 ```
 git clone git@github.com:parcelvalue/api-client.git
 cd api-client
 cp .env.dist .env
+echo test > .env
 composer update
 ```
 
