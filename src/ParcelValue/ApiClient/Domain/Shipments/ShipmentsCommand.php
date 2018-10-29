@@ -44,7 +44,48 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $jwt = \ParcelValue\Api\AuthenticationToken::generate($clientId, $clientKey, $serverKey);
         $this->curlBrowser->setRequestHeader('Authorization', sprintf('Bearer %s', $jwt));
 
-        $postData = [];
+        $shipment = new \ParcelValue\Api\JsonApi\ResourceObjects\Shipment();
+
+        /* */
+        $shipment->setAttribute(
+            'shipFrom',
+            [
+                'name' => 'Sender name',
+                'address1' => 'Sender street',
+                'city' => 'Milano',
+                'postalCode' => '20129',
+                'state' => 'MI',
+                'country' => 'IT',
+                'contact' => 'Sender contact name',
+                'phone' => '1234567890',
+                'email' => 'sender@ship.from'
+            ]
+        );
+        /* */
+
+        /* */
+        $shipment->setAttribute(
+            'shipTo',
+            [
+                'name' => 'Receiver name',
+                'address1' => 'Receiver street',
+                'city' => 'Muenchen',
+                'postalCode' => '80331',
+                'state' => null,
+                'country' => 'DE',
+                'contact' => 'Receiver contact name',
+                'phone' => '0987654321',
+                'email' => 'receiver@ship.to'
+            ]
+        );
+        /* */
+
+        //XXX
+
+        $postData = [
+            'shipment' => $shipment->toJson(),
+        ];
+
 
         $this->outputCli('---', true);
         $this->outputCli('REQUEST', true);
@@ -61,7 +102,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli('RESPONSE', true);
         $this->outputCli(sprintf('Status code: %s', $this->responseStatus), true);
         $this->outputCli(sprintf('Headers: %s', print_r($this->responseHeaders, true)), true);
-        $this->outputCli(sprintf('Content: %s', print_r(json_decode($this->responseContent), true)), true);
+        $this->outputCli(sprintf('Content: %s', print_r(json_decode($this->responseContent, true), true)), true);
 
         return new CliResponse('', true);
     }
