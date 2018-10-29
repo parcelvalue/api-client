@@ -1,0 +1,21 @@
+# HTTPS/WWW done in VHost config
+
+<IfModule mod_rewrite.c>
+
+    Options +FollowSymLinks
+
+    RewriteEngine On
+
+    # Dynamic RewriteBase
+    #RewriteBase /
+    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+    RewriteRule ^(.*) - [E=BASE:%1]
+
+    # No rewrite for existing files and directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Single point of access
+    RewriteRule ^ index.php [QSA,L]
+
+</IfModule>
