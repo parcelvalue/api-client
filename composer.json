@@ -40,7 +40,7 @@
         "check:structure" : "pds-skeleton validate .",
         "check" : "phpcs --standard=PSR2 --extensions=php src public tests",
         "s:7": "phpstan analyse src tests --level=7 --ansi -c phpstan.neon",
-        "all": "clear && composer s:7 && composer check",
+        "all": "clear && composer s:7 && composer check && composer test",
         "check:devel": "grep -rnF 'XXX' src"
     }
 }
