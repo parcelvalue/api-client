@@ -1,0 +1,10 @@
+language: php
+php:
+        - '7.1'
+        - hhvm
+before_script:
+  - rm -f composer.lock
+  - composer update
+notifications:
+        email:
+                on_success: always
