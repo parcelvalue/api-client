@@ -3,6 +3,7 @@ namespace ParcelValue\ApiClient\Traits;
 
 trait ControllerTrait
 {
+    abstract protected function config();
     abstract protected function request();
     abstract protected function setData($key, $value);
 
@@ -17,7 +18,7 @@ trait ControllerTrait
     /**
      * Called (optionally) by each method.
      */
-    protected function init($action)
+    protected function init()
     {
     }
 }
