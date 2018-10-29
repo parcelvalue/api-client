@@ -7,3 +7,11 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/parcelvalue/api-client/badges/quality-score.png)](https://scrutinizer-ci.com/g/parcelvalue/api-client/)
 
 ParcelValue API Client
+
+
+## ParcelValue API documentation
+For up to date API documentation please see the [ParcelValue API](https://github.com/parcelvalue/api) project.
+
+## Project documentation
+* [Installation](docs/Installation.md)
+* [Generate an authentication token (JWT)](docs/GenerateAuthenticationToken.md)
