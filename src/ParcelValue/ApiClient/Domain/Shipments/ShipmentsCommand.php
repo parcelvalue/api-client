@@ -62,11 +62,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli(sprintf('Status code: %s', $this->responseStatus), true);
         $this->outputCli(sprintf('Headers: %s', print_r($this->responseHeaders, true)), true);
         $this->outputCli(sprintf('Content: %s', print_r(json_decode($this->responseContent), true)), true);
-        //$this->outputCli(var_export($this->responseStatus), true);
-        //$this->outputCli(var_export($this->responseHeaders), true);
-        //$this->outputCli(var_export($this->responseContent), true);
 
-        //$this->outputCli('', true);
         return new CliResponse('', true);
     }
 }
