@@ -43,6 +43,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $jwt = \ParcelValue\Api\AuthenticationToken::generate($clientId, $clientKey, $serverKey);
         $this->curlBrowser->setRequestHeader('Authorization', sprintf('Bearer %s', $jwt));
+        $this->curlBrowser->setRequestHeader('Content-Type', \WebServCo\Api\JsonApi\Structure::CONTENT_TYPE);
 
         $shipment = new \ParcelValue\Api\JsonApi\ResourceObjects\Shipment();
 
@@ -80,12 +81,12 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         );
         /* */
 
-        //XXX
+        //XXX WORK
 
         $postData = [
             'shipment' => $shipment->toJson(),
         ];
-
+        //XXX require postadata to use JSON API format?
 
         $this->outputCli('---', true);
         $this->outputCli('REQUEST', true);
@@ -94,6 +95,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli(sprintf('POST data: %s', print_r($postData, true)), true);
 
         $this->httpResponse = $this->curlBrowser->post($url, $postData);
+
         $this->responseStatus = $this->httpResponse->getStatus();
         $this->responseHeaders = $this->httpResponse->getHeaders();
         $this->responseContent = $this->httpResponse->getContent();
@@ -102,7 +104,12 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli('RESPONSE', true);
         $this->outputCli(sprintf('Status code: %s', $this->responseStatus), true);
         $this->outputCli(sprintf('Headers: %s', print_r($this->responseHeaders, true)), true);
-        $this->outputCli(sprintf('Content: %s', print_r(json_decode($this->responseContent, true), true)), true);
+        $this->outputCli(sprintf('Content: %s', $this->responseContent), true);
+        $this->outputCli(
+            sprintf('Processed content: %s', print_r(json_decode($this->responseContent, true), true)),
+            true
+        );
+
 
         return new CliResponse('', true);
     }
