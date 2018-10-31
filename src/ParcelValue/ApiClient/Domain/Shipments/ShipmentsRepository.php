@@ -41,6 +41,40 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
         );
         /* */
 
+        /* */
+        $shipment->setAttribute(
+            'packages',
+            [
+                [
+                    'weight' => [
+                        'value' => '1.2',
+                        'units' => '1'
+                    ],
+                    'dimensions' => [
+                        'length' => '32',
+                        'width' => '33',
+                        'height' => '34',
+                        'units' => '1'
+                    ],
+                    'packageType' => 'CARTON',
+                ],
+                [
+                    'weight' => [
+                        'value' => '1.9',
+                        'units' => '1'
+                    ],
+                    'dimensions' => [
+                        'length' => '32',
+                        'width' => '33',
+                        'height' => '34',
+                        'units' => '1'
+                    ],
+                    'packageType' => 'CARTON',
+                ]
+            ]
+        );
+        /* */
+
         return $shipment;
     }
 }
