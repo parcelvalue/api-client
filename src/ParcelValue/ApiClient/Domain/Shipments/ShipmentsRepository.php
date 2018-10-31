@@ -19,7 +19,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
                 'country' => 'IT',
                 'contact' => 'Sender contact name',
                 'phone' => '1234567890',
-                'email' => 'sender@ship.from'
+                'email' => 'sender@ship.from',
             ]
         );
         /* */
