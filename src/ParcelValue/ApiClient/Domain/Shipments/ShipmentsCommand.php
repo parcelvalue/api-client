@@ -38,7 +38,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
     public function create($clientId, $clientKey, $serverKey)
     {
-        $this->outputCli('', true);
+        $this->outputCli(Ansi::clear(), true);
         $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
         $url = sprintf(
