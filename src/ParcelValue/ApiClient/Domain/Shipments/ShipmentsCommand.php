@@ -1,7 +1,11 @@
 <?php
 namespace ParcelValue\ApiClient\Domain\Shipments;
 
+use WebServCo\Api\JsonApi\Document;
+use WebServCo\Framework\Cli\Ansi;
+use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\CliResponse;
+use WebServCo\Framework\Http;
 
 final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 {
@@ -9,6 +13,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
     protected $curlBrowser;
 
     protected $httpResponse;
+    protected $requestHeaders;
     protected $responseStatus;
     protected $responseContent;
     protected $responseHeaders;
@@ -28,12 +33,13 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         if (\WebServCo\Framework\Environment::ENV_DEV == $this->config()->getEnv()) {
             $this->curlBrowser->setSkipSSlVerification(true);
         }
-        $this->curlBrowser->setRequestHeader('Accept', \WebServCo\Api\JsonApi\Structure::CONTENT_TYPE);
+        $this->curlBrowser->setRequestHeader('Accept', Document::CONTENT_TYPE);
     }
 
     public function create($clientId, $clientKey, $serverKey)
     {
-        $this->outputCli(__METHOD__, true);
+        $this->outputCli('', true);
+        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
         $url = sprintf(
             '%s%s/shipments',
@@ -43,73 +49,54 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $jwt = \ParcelValue\Api\AuthenticationToken::generate($clientId, $clientKey, $serverKey);
         $this->curlBrowser->setRequestHeader('Authorization', sprintf('Bearer %s', $jwt));
-        $this->curlBrowser->setRequestHeader('Content-Type', \WebServCo\Api\JsonApi\Structure::CONTENT_TYPE);
+        $this->curlBrowser->setRequestHeader('Content-Type', Document::CONTENT_TYPE);
 
-        $shipment = new \ParcelValue\Api\JsonApi\ResourceObjects\Shipment();
+        $shipment = $this->repository->getTestShipment();
 
-        /* */
-        $shipment->setAttribute(
-            'shipFrom',
-            [
-                'name' => 'Sender name',
-                'address1' => 'Sender street',
-                'city' => 'Milano',
-                'postalCode' => '20129',
-                'state' => 'MI',
-                'country' => 'IT',
-                'contact' => 'Sender contact name',
-                'phone' => '1234567890',
-                'email' => 'sender@ship.from'
-            ]
-        );
-        /* */
+        $document = new Document();
+        $document->setData($shipment);
+        $postData = $document->toJson();
 
-        /* */
-        $shipment->setAttribute(
-            'shipTo',
-            [
-                'name' => 'Receiver name',
-                'address1' => 'Receiver street',
-                'city' => 'Muenchen',
-                'postalCode' => '80331',
-                'state' => null,
-                'country' => 'DE',
-                'contact' => 'Receiver contact name',
-                'phone' => '0987654321',
-                'email' => 'receiver@ship.to'
-            ]
-        );
-        /* */
-
-        //XXX WORK
-
-        $postData = [
-            'shipment' => $shipment->toJson(),
-        ];
-        //XXX require postadata to use JSON API format?
-
-        $this->outputCli('---', true);
-        $this->outputCli('REQUEST', true);
-        $this->outputCli(sprintf('POST %s', $url), true);
-        $this->outputCli(sprintf('Headers: %s', print_r($this->curlBrowser->getRequestHeaders(), true)), true);
-        $this->outputCli(sprintf('POST data: %s', print_r($postData, true)), true);
-
+        $this->outputCli('', true);
+        $this->outputCli(sprintf('REQUEST: POST %s', $url), true);
         $this->httpResponse = $this->curlBrowser->post($url, $postData);
+        $this->requestHeaders = $this->curlBrowser->getRequestHeaders();
+        foreach ($this->requestHeaders as $key => $value) {
+            $this->outputCli(sprintf('%s: %s', Ansi::sgr($key, [Sgr::BOLD]), $value), true);
+        }
+        $this->outputCli('', true);
+        $this->outputCli($postData, true);
 
         $this->responseStatus = $this->httpResponse->getStatus();
         $this->responseHeaders = $this->httpResponse->getHeaders();
         $this->responseContent = $this->httpResponse->getContent();
 
-        $this->outputCli('---', true);
-        $this->outputCli('RESPONSE', true);
-        $this->outputCli(sprintf('Status code: %s', $this->responseStatus), true);
-        $this->outputCli(sprintf('Headers: %s', print_r($this->responseHeaders, true)), true);
-        $this->outputCli(sprintf('Content: %s', $this->responseContent), true);
+        $this->outputCli('', true);
         $this->outputCli(
-            sprintf('Processed content: %s', print_r(json_decode($this->responseContent, true), true)),
+            sprintf(
+                'RESPONSE: %s',
+                Ansi::sgr(
+                    sprintf(
+                        '%s %s',
+                        $this->responseStatus,
+                        Http::$statusCodes[$this->responseStatus] ?: null
+                    ),
+                    [400 > $this->responseStatus ? Sgr::GREEN : sgr::RED]
+                )
+            ),
             true
         );
+        foreach ($this->responseHeaders as $key => $value) {
+            $this->outputCli(sprintf('%s: %s', Ansi::sgr($key, [Sgr::BOLD]), $value), true);
+        }
+        $this->outputCli('', true);
+        $this->outputCli($this->responseContent, true);
 
+        $this->outputCli('', true);
+        $this->outputCli(
+            sprintf('Processed result: %s', json_encode(json_decode($this->responseContent, true), JSON_PRETTY_PRINT)),
+            true
+        );
 
         return new CliResponse('', true);
     }
