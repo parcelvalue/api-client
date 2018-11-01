@@ -7,7 +7,6 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
     {
         $shipment = new \ParcelValue\Api\JsonApi\ResourceObjects\Shipment();
 
-        /* */
         $shipment->setAttribute(
             'shipFrom',
             [
@@ -22,9 +21,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
                 'email' => 'sender@ship.from',
             ]
         );
-        /* */
 
-        /* */
         $shipment->setAttribute(
             'shipTo',
             [
@@ -39,9 +36,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
                 'email' => 'receiver@ship.to'
             ]
         );
-        /* */
 
-        /* */
         $shipment->setAttribute(
             'packages',
             [
@@ -73,7 +68,10 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
                 ]
             ]
         );
-        /* */
+
+        $shipment->setAttribute('useCod', true);
+        
+        $shipment->setAttribute('saturdayDelivery', true);
 
         return $shipment;
     }
