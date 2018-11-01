@@ -1,0 +1,11 @@
+<?php
+
+return [
+    'api' => [
+        'url' => 'https://api.parcelvalue.eu/',
+        'version' => 'v1',
+        'clientId' => 0,
+        'clientKey' => '',
+        'serverKey' => '',
+    ],
+];
