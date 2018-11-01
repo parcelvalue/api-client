@@ -1,11 +1,15 @@
 <?php
 namespace ParcelValue\ApiClient\Domain\Shipments;
 
+use ParcelValue\Api\JsonApi\ResourceObjects\Shipment;
+
 final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepository
 {
     public function getTestShipment()
     {
-        $shipment = new \ParcelValue\Api\JsonApi\ResourceObjects\Shipment();
+        $shipment = new Shipment();
+
+        $shipment->setAttribute('shipDate', date(Shipment::DATE_FORMAT, strtotime('tomorrow')));
 
         $shipment->setAttribute(
             'shipFrom',
@@ -70,7 +74,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
         );
 
         $shipment->setAttribute('useCod', true);
-        
+
         $shipment->setAttribute('saturdayDelivery', true);
 
         return $shipment;
