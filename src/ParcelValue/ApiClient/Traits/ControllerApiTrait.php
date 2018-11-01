@@ -99,4 +99,20 @@ trait ControllerApiTrait
         );
         return true;
     }
+
+    protected function validateApiConfig()
+    {
+        foreach ([
+            'api/url' => $this->apiUrl,
+            'api/version' => $this->apiVersion,
+            'clientId' => $this->clientId,
+            'clientKey' => $this->clientKey,
+            'serverKey' => $this->serverKey,
+        ] as $key => $value) {
+            if (empty($value)) {
+                throw new \InvalidArgumentException(sprintf('Missing or invalid configuration data: %s', $key));
+            }
+        }
+        return true;
+    }
 }
