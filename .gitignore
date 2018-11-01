@@ -3,3 +3,4 @@ composer.lock
 
 # Configuration
 .env
+/config/*/App.php
