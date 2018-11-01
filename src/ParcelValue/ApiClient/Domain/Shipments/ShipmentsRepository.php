@@ -77,6 +77,8 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
 
         $shipment->setAttribute('saturdayDelivery', true);
 
+        $shipment->setService('express');
+
         return $shipment;
     }
 }
