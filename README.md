@@ -8,11 +8,20 @@
 
 ParcelValue API Client
 
+Utilities and examples for the ParcelValue API.
+
+Generate an authentication token to use in any software interacting with the API.
+
+Create and retrieve shipments.
+
+> No PHP programming knowledge is required for running most of the examples in this project.
+
 ---
 
-## ParcelValue API documentation
-For up to date API documentation please see the [ParcelValue API](https://github.com/parcelvalue/api) project.
+## Documentation
+* [Installation](/docs/Installation.md)
+* [Generate an authentication token (JWT)](/docs/GenerateAuthenticationToken.md)
+* [Create or retrieve shipments](/docs/Shipments.md)
 
-## Project documentation
-* [Installation](docs/Installation.md)
-* [Generate an authentication token (JWT)](docs/GenerateAuthenticationToken.md)
+### ParcelValue API documentation
+For up to date API documentation please see the [ParcelValue API](https://github.com/parcelvalue/api) project.

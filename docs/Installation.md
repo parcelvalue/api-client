@@ -1,6 +1,6 @@
 # Installation
 
-The `test` environment is used in this example.
+> Note: all code examples assume the `test` environment is used.
 
 ## Install
 ```
@@ -8,6 +8,8 @@ git clone https://github.com/parcelvalue/api-client.git
 cd api-client
 cp .env.dist .env
 echo test > .env
+
+cp config/test/App.php.dist config/test/App.php
 
 composer update
 ```
