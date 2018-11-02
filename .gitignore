@@ -4,3 +4,4 @@ composer.lock
 # Configuration
 .env
 /config/*/App.php
+/config/*/Shipment.php
