@@ -5,9 +5,13 @@ use WebServCo\Api\JsonApi\Document;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\CliResponse;
+use WebServCo\Framework\Http;
 
 final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 {
+    protected $jwt;
+    protected $headers;
+
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
 
     public function __construct()
@@ -17,6 +21,13 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->repository = new ShipmentsRepository($this->outputLoader);
 
         $this->validateApiConfig();
+
+        $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
+            $this->clientId,
+            $this->clientKey,
+            $this->serverKey
+        );
+        $this->headers = ['Authorization' => sprintf('Bearer %s', $this->jwt)];
     }
 
     public function create()
@@ -26,29 +37,29 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $this->initApiCall();
 
-        $url = sprintf(
-            '%s%s/shipments',
-            $this->apiUrl,
-            $this->apiVersion
-        );
+        $url = sprintf('%s%s/shipments', $this->apiUrl, $this->apiVersion);
 
-        $jwt = \ParcelValue\Api\AuthenticationToken::generate($this->clientId, $this->clientKey, $this->serverKey);
-        $headers = [
-            'Authorization' => sprintf('Bearer %s', $jwt),
-            'Content-Type' => Document::CONTENT_TYPE,
-        ];
-
-        $shipment = $this->repository->getTestShipment();
-
+        $shipment = $this->repository->getShipment();
         $document = new Document();
         $document->setData($shipment);
 
-        $this->handleApiCall(
-            $url,
-            \WebServCo\Framework\Http::METHOD_POST,
-            $headers,
-            $document->toJson()
-        );
+        $this->headers['Content-Type'] = Document::CONTENT_TYPE;
+
+        $this->handleApiCall($url, Http::METHOD_POST, $this->headers, $document->toJson());
+
+        return new CliResponse('', true);
+    }
+
+    public function retrieve($id)
+    {
+        $this->outputCli(Ansi::clear(), true);
+        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+
+        $this->initApiCall();
+
+        $url = sprintf('%s%s/shipments/%s', $this->apiUrl, $this->apiVersion, $id);
+
+        $this->handleApiCall($url, Http::METHOD_GET, $this->headers);
 
         return new CliResponse('', true);
     }
