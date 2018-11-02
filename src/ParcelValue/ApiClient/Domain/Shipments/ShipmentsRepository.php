@@ -8,10 +8,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
 {
     public function getShipment()
     {
-        $shipmentConfig = $this->config()->load(
-            'Shipment',
-            $this->config()->get('path/project')
-        );
+        $shipmentConfig = $this->config()->load('Shipment', $this->config()->get('path/project'));
         $this->verifyShipmentConfig($shipmentConfig);
 
         $shipment = new Shipment();
