@@ -36,7 +36,7 @@ return [
                     'height' => '34',
                     'units' => '1'
                 ],
-                'packageType' => 'CARTON',
+                'type' => 'CARTON',
             ],
             [
                 'weight' => [
@@ -49,7 +49,7 @@ return [
                     'height' => '34',
                     'units' => '1'
                 ],
-                'packageType' => 'CARTON',
+                'type' => 'CARTON',
             ]
         ],
         'goodsDescription' => 'Items from order #1',
