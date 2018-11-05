@@ -52,6 +52,11 @@ return [
                 'packageType' => 'CARTON',
             ]
         ],
+        'goodsDescription' => 'Items from order #1',
+        'invoiceSubtotal' => [
+            'amount' => 13.69,
+            'currency' => \ParcelValue\Api\JsonApi\ResourceObjects\Shipment::CURRENCY_EUR,
+        ],
         'useCod' => true,
         'saturdayDelivery' => true,
     ],

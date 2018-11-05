@@ -18,6 +18,8 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
         $shipment->setAttribute('shipFrom', $shipmentConfig['attributes']['shipFrom']);
         $shipment->setAttribute('shipTo', $shipmentConfig['attributes']['shipTo']);
         $shipment->setAttribute('packages', $shipmentConfig['attributes']['packages']);
+        $shipment->setAttribute('goodsDescription', $shipmentConfig['attributes']['goodsDescription']);
+        $shipment->setAttribute('invoiceSubtotal', $shipmentConfig['attributes']['invoiceSubtotal']);
         foreach (['useCod', 'saturdayDelivery'] as $item) {
             if (isset($shipmentConfig['attributes'][$item])) {
                 $shipment->setAttribute($item, $shipmentConfig['attributes'][$item]);
