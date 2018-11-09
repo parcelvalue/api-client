@@ -13,7 +13,7 @@ final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepositor
 
         $shipment = new Shipment();
 
-        $shipment->setAttribute('shipDate', date(Shipment::DATE_FORMAT, strtotime('tomorrow')));
+        $shipment->setAttribute('shipDate', date(Shipment::DATE_FORMAT, strtotime('next tuesday')));
 
         $shipment->setAttribute('shipFrom', $shipmentConfig['attributes']['shipFrom']);
         $shipment->setAttribute('shipTo', $shipmentConfig['attributes']['shipTo']);
