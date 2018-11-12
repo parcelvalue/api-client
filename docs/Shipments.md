@@ -24,5 +24,11 @@ bin/cli Shipments/create
 ## Retrieve an existing shipment
 
 ```
-bin/cli Shipments/retrieve <id>
+bin/cli Shipments/retrieve <shipmentId>
+```
+
+## Download shipment documents
+
+```
+bin/cli Shipments/downloadDocuments <shipmentId>
 ```
