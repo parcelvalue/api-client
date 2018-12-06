@@ -21,7 +21,7 @@ final class App extends \WebServCo\Framework\Application
      */
     protected function haltHttp($errorInfo = [])
     {
-        $logger = new \WebServCo\Framework\FileLogger(
+        $logger = new \WebServCo\Framework\Log\FileLogger(
             'error',
             $this->config()->get('app/path/log'),
             $this->request()

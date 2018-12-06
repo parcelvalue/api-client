@@ -23,7 +23,7 @@ trait ControllerApiTrait
 
     protected function initApiCall()
     {
-        $this->logger = new \WebServCo\Framework\FileLogger(
+        $this->logger = new \WebServCo\Framework\Log\FileLogger(
             __FUNCTION__,
             sprintf('%svar/log/', $this->data('path/project', '')),
             $this->request()
