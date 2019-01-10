@@ -3,8 +3,8 @@ namespace ParcelValue\ApiClient\Domain\Shipments;
 
 use WebServCo\Api\JsonApi\Document;
 use WebServCo\Framework\Cli\Ansi;
+use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
-use WebServCo\Framework\CliResponse;
 use WebServCo\Framework\Http;
 
 final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
@@ -47,7 +47,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $this->handleApiCall($url, Http::METHOD_POST, $this->headers, $document->toJson());
 
-        return new CliResponse('', true);
+        return new Response('', true);
     }
 
     public function retrieve($shipmentId)
@@ -61,7 +61,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $this->handleApiCall($url, Http::METHOD_GET, $this->headers);
 
-        return new CliResponse('', true);
+        return new Response('', true);
     }
 
     public function downloadDocuments($shipmentId)
@@ -92,6 +92,6 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
                 );
             }
         }
-        return new CliResponse('', true);
+        return new Response('', true);
     }
 }

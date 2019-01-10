@@ -29,6 +29,6 @@ final class ClientsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli();
         $this->outputCli($jwt, true);
         $this->outputCli();
-        return new \WebServCo\Framework\CliResponse('', true);
+        return new \WebServCo\Framework\Cli\Response('', true);
     }
 }
