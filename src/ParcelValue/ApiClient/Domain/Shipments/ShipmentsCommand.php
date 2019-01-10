@@ -5,7 +5,7 @@ use WebServCo\Api\JsonApi\Document;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
-use WebServCo\Framework\Http;
+use WebServCo\Framework\Http\Method;
 
 final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 {
@@ -45,7 +45,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $this->headers['Content-Type'] = Document::CONTENT_TYPE;
 
-        $this->handleApiCall($url, Http::METHOD_POST, $this->headers, $document->toJson());
+        $this->handleApiCall($url, Method::POST, $this->headers, $document->toJson());
 
         return new Response('', true);
     }
@@ -59,7 +59,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $url = sprintf('%s%s/shipments/%s', $this->apiUrl, $this->apiVersion, $shipmentId);
 
-        $this->handleApiCall($url, Http::METHOD_GET, $this->headers);
+        $this->handleApiCall($url, Method::GET, $this->headers);
 
         return new Response('', true);
     }
@@ -73,7 +73,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $url = sprintf('%s%s/shipments/%s/documents', $this->apiUrl, $this->apiVersion, $shipmentId);
 
-        $this->handleApiCall($url, Http::METHOD_GET, $this->headers);
+        $this->handleApiCall($url, Method::GET, $this->headers);
 
         $data = json_decode($this->responseContent, true);
         if (isset($data['data']['attributes']['fileData']) && isset($data['data']['attributes']['fileName'])) {

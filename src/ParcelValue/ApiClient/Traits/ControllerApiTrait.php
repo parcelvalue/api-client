@@ -3,7 +3,7 @@ namespace ParcelValue\ApiClient\Traits;
 
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Sgr;
-use WebServCo\Framework\Http;
+use WebServCo\Framework\Http\Method;
 
 trait ControllerApiTrait
 {
@@ -45,11 +45,11 @@ trait ControllerApiTrait
         }
 
         switch ($method) {
-            case Http::METHOD_POST:
+            case Method::POST:
                 $this->curlBrowser->setPostData($postData);
                 break;
-            case Http::METHOD_GET:
-            case Http::METHOD_HEAD:
+            case Method::GET:
+            case Method::HEAD:
                 break;
             default:
                 throw new \WebServCo\Framework\Exceptions\NotImplementedException('Functionality not implemented');
@@ -62,7 +62,7 @@ trait ControllerApiTrait
         foreach ($this->requestHeaders as $key => $value) {
             $this->outputCli(sprintf('%s: %s', Ansi::sgr($key, [Sgr::BOLD]), $value), true);
         }
-        if (Http::METHOD_POST == $method) {
+        if (Method::POST == $method) {
             $this->outputCli('', true);
             $this->outputCli($postData, true);
         }
@@ -72,6 +72,7 @@ trait ControllerApiTrait
         $this->responseContent = $this->httpResponse->getContent();
 
         $this->outputCli('', true);
+        $statusCodes = \WebServCo\Framework\Http\StatusCode::getSupported();
         $this->outputCli(
             sprintf(
                 'RESPONSE: %s',
@@ -79,7 +80,7 @@ trait ControllerApiTrait
                     sprintf(
                         '%s %s',
                         $this->responseStatus,
-                        Http::$statusCodes[$this->responseStatus] ?: null
+                        $statusCodes[$this->responseStatus] ?: null
                     ),
                     [400 > $this->responseStatus ? Sgr::GREEN : sgr::RED]
                 )
