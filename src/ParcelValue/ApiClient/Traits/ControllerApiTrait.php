@@ -18,7 +18,7 @@ trait ControllerApiTrait
     abstract protected function request();
     abstract protected function outputCli($string, $eol = true);
 
-    protected function handleApiCall($url, $method, array $headers = [], $requestData = null)
+    protected function handleApiCall($jwt, $url, $method, $requestData = null)
     {
         $this->outputCli('', true);
         $this->outputCli(sprintf('REQUEST: %s %s', $method, $url), true);
@@ -29,8 +29,8 @@ trait ControllerApiTrait
             $this->request()
         );
 
-        $apiHelper = new \ParcelValue\Api\Helper($logger, $this->config()->getEnv());
-        $this->httpResponse = $apiHelper->getResponse($url, $method, $headers, $requestData);
+        $apiHelper = new \ParcelValue\Api\Helper($logger, $jwt, $this->config()->getEnv());
+        $this->httpResponse = $apiHelper->getResponse($url, $method, $requestData);
 
         $this->requestHeaders = $apiHelper->getRequestHeaders();
         foreach ($this->requestHeaders as $key => $value) {

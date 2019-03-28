@@ -10,7 +10,6 @@ use WebServCo\Framework\Http\Method;
 final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 {
     protected $jwt;
-    protected $headers;
 
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
 
@@ -27,7 +26,6 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
             $this->clientKey,
             $this->serverKey
         );
-        $this->headers = ['Authorization' => sprintf('Bearer %s', $this->jwt)];
     }
 
     public function create()
@@ -41,9 +39,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $document = new Document();
         $document->setData($shipment);
 
-        $this->headers['Content-Type'] = Document::CONTENT_TYPE;
-
-        $this->handleApiCall($url, Method::POST, $this->headers, $document->toJson());
+        $this->handleApiCall($this->jwt, $url, Method::POST, $document->toJson());
 
         return new Response('', true);
     }
@@ -55,7 +51,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $url = sprintf('%s%s/shipments/%s', $this->apiUrl, $this->apiVersion, $shipmentId);
 
-        $this->handleApiCall($url, Method::GET, $this->headers);
+        $this->handleApiCall($this->jwt, $url, Method::GET);
 
         return new Response('', true);
     }
@@ -67,7 +63,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
 
         $url = sprintf('%s%s/shipments/%s/documents', $this->apiUrl, $this->apiVersion, $shipmentId);
 
-        $this->handleApiCall($url, Method::GET, $this->headers);
+        $this->handleApiCall($this->jwt, $url, Method::GET);
 
         $data = json_decode($this->responseContent, true);
         if (isset($data['data']['attributes']['fileData']) && isset($data['data']['attributes']['fileName'])) {
