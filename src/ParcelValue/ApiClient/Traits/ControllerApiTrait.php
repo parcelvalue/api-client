@@ -1,6 +1,7 @@
 <?php
 namespace ParcelValue\ApiClient\Traits;
 
+use WebServCo\Api\JsonApi\Document;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\Http\Method;
@@ -32,7 +33,7 @@ trait ControllerApiTrait
         if (\WebServCo\Framework\Environment::ENV_DEV == $this->config()->getEnv()) {
             $this->curlBrowser->setSkipSSlVerification(true);
         }
-        $this->curlBrowser->setRequestHeader('Accept', \WebServCo\Api\JsonApi\Document::CONTENT_TYPE);
+        $this->curlBrowser->setRequestHeader('Accept', Document::CONTENT_TYPE);
     }
 
     protected function handleApiCall($url, $method, array $headers = [], $postData = null)
@@ -46,7 +47,8 @@ trait ControllerApiTrait
 
         switch ($method) {
             case Method::POST:
-                $this->curlBrowser->setPostData($postData);
+                $this->curlBrowser->setRequestContentType(Document::CONTENT_TYPE);
+                $this->curlBrowser->setRequestData($postData);
                 break;
             case Method::GET:
             case Method::HEAD:
