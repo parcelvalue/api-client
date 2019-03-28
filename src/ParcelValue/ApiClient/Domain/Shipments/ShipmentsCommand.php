@@ -35,8 +35,6 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli(Ansi::clear(), true);
         $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $this->initApiCall();
-
         $url = sprintf('%s%s/shipments', $this->apiUrl, $this->apiVersion);
 
         $shipment = $this->repository->getShipment();
@@ -55,8 +53,6 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
         $this->outputCli(Ansi::clear(), true);
         $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $this->initApiCall();
-
         $url = sprintf('%s%s/shipments/%s', $this->apiUrl, $this->apiVersion, $shipmentId);
 
         $this->handleApiCall($url, Method::GET, $this->headers);
@@ -68,8 +64,6 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
     {
         $this->outputCli(Ansi::clear(), true);
         $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
-
-        $this->initApiCall();
 
         $url = sprintf('%s%s/shipments/%s/documents', $this->apiUrl, $this->apiVersion, $shipmentId);
 
