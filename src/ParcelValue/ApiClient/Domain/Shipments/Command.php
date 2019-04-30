@@ -7,7 +7,7 @@ use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\Http\Method;
 
-final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
+final class Command extends \ParcelValue\ApiClient\AbstractController
 {
     protected $jwt;
 
@@ -17,7 +17,7 @@ final class ShipmentsCommand extends \ParcelValue\ApiClient\AbstractController
     {
         parent::__construct();
 
-        $this->repository = new ShipmentsRepository($this->outputLoader);
+        $this->repository = new Repository($this->outputLoader);
 
         $this->validateApiConfig();
 

@@ -4,7 +4,7 @@ namespace ParcelValue\ApiClient\Domain\Shipments;
 use ParcelValue\Api\JsonApi\ResourceObjects\Shipment;
 use WebServCo\Framework\Exceptions\ApplicationException;
 
-final class ShipmentsRepository extends \ParcelValue\ApiClient\AbstractRepository
+final class Repository extends \ParcelValue\ApiClient\AbstractRepository
 {
     public function getShipment()
     {

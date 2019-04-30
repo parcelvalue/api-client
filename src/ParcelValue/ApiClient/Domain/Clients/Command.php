@@ -4,15 +4,15 @@ namespace ParcelValue\ApiClient\Domain\Clients;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Sgr;
 
-final class ClientsCommand extends \ParcelValue\ApiClient\AbstractController
+final class Command extends \ParcelValue\ApiClient\AbstractController
 {
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
-    
+
     public function __construct()
     {
         parent::__construct();
 
-        $this->repository = new ClientsRepository($this->outputLoader);
+        $this->repository = new Repository($this->outputLoader);
 
         $this->validateApiConfig();
     }
