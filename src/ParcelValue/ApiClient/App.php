@@ -1,6 +1,8 @@
 <?php
 namespace ParcelValue\ApiClient;
 
+use WebServCo\Framework\Log\FileLogger;
+
 final class App extends \WebServCo\Framework\Application
 {
     public function __construct($pathPublic, $pathProject = null)
@@ -21,14 +23,14 @@ final class App extends \WebServCo\Framework\Application
      */
     protected function haltHttp($errorInfo = [])
     {
-        $logger = new \WebServCo\Framework\Log\FileLogger(
+        $logger = new FileLogger(
             'error',
             $this->config()->get('app/path/log'),
             $this->request()
         );
         $logger->error(
             sprintf('Error: %s in %s:%s', $errorInfo['message'], $errorInfo['file'], $errorInfo['line']),
-            [] /* $errorInfo */
+            $errorInfo
         );
         return parent::haltHttp($errorInfo);
     }
@@ -38,6 +40,15 @@ final class App extends \WebServCo\Framework\Application
      */
     protected function haltCli($errorInfo = [])
     {
+        $logger = new FileLogger(
+            'errorCli',
+            $this->config()->get('app/path/log'),
+            $this->request()
+        );
+        $logger->error(
+            sprintf('Error: %s in %s:%s', $errorInfo['message'], $errorInfo['file'], $errorInfo['line']),
+            $errorInfo
+        );
         return parent::haltCli($errorInfo);
     }
 }
