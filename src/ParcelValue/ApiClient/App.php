@@ -1,7 +1,6 @@
 <?php
 namespace ParcelValue\ApiClient;
 
-
 use WebServCo\Framework\Log\FileLogger;
 
 final class App extends \WebServCo\Framework\Application
