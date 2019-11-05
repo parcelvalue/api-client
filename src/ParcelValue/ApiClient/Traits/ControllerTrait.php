@@ -7,7 +7,7 @@ trait ControllerTrait
     abstract protected function request();
     abstract protected function setData($key, $value);
 
-    protected function initPaths()
+    protected function setupPaths()
     {
         $this->setData('path', $this->config()->get('app/path'));
         $this->setData('url/app', $this->request()->getAppUrl());
