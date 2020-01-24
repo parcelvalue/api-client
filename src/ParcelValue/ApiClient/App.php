@@ -58,6 +58,6 @@ final class App extends \WebServCo\Framework\Application
                 } while ($previous = $previous->getPrevious());
             }
         }
-        $logger->error($errorMessage, []);
+        $logger->error($errorMessage, $errorInfo);
     }
 }
