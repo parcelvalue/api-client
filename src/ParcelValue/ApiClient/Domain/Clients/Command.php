@@ -4,10 +4,14 @@ namespace ParcelValue\ApiClient\Domain\Clients;
 use ParcelValue\Api\AuthenticationToken;
 
 use WebServCo\Framework\Cli\Ansi;
+use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
+use WebServCo\Framework\Http\Method;
 
 final class Command extends \ParcelValue\ApiClient\AbstractController
 {
+    protected $jwt;
+
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
 
     public function __construct()
@@ -17,6 +21,24 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->repository = new Repository($this->outputLoader);
 
         $this->validateApiConfig();
+
+        $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
+            $this->clientId,
+            $this->clientKey,
+            $this->serverKey
+        );
+    }
+
+    public function current()
+    {
+        $this->outputCli(Ansi::clear(), true);
+        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+
+        $url = sprintf('%s%s/clients/current', $this->apiUrl, $this->apiVersion);
+
+        $this->handleApiCall($this->jwt, $url, Method::GET);
+
+        return new Response('', true);
     }
 
     public function generateAuthenticationToken()

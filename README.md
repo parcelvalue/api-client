@@ -21,6 +21,7 @@ Create and retrieve shipments.
 ## Documentation
 * [Installation](/docs/Installation.md)
 * [Generate an authentication token (JWT)](/docs/GenerateAuthenticationToken.md)
+* [Retrieve information about the current client.](/docs/Clients.md)
 * [Create or retrieve shipments](/docs/Shipments.md)
 
 ### ParcelValue API documentation

@@ -6,7 +6,7 @@ Generate a JSON Web Token to use for API authentication.
 
 > Please see the [Installation documentation](/docs/Installation.md) for information on how to set up the project.
 
-```
+```sh
 cd api-client
 bin/cli Clients/generateAuthenticationToken
 ```
