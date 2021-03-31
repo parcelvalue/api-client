@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php" : "^5.4 || ^7.0",
+        "php" : "^7.1",
         "webservco/framework" : "^9.79.0",
         "webservco/api" : "^1",
         "parcelvalue/api" : "@dev"
