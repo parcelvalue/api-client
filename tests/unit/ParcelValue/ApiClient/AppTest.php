@@ -1,8 +1,11 @@
 <?php
-namespace Tests\ApiClient;
 
-use PHPUnit\Framework\TestCase;
+declare(strict_types=1);
+
+namespace Tests\ParcelValue\ApiClient;
+
 use ParcelValue\ApiClient\App;
+use PHPUnit\Framework\TestCase;
 
 final class AppTest extends TestCase
 {
@@ -10,7 +13,7 @@ final class AppTest extends TestCase
     * @test
     * @expectedException \WebServCo\Framework\Exceptions\ApplicationException
     */
-    public function instantiationWithNullParameterThrowsException()
+    public function instantiationWithNullParameterThrowsException(): void
     {
         new App(null);
     }
@@ -19,7 +22,7 @@ final class AppTest extends TestCase
     * @test
     * @expectedException \WebServCo\Framework\Exceptions\ApplicationException
     */
-    public function instantiationWithEmptyParameterThrowsException()
+    public function instantiationWithEmptyParameterThrowsException(): void
     {
         new App('');
     }
@@ -28,7 +31,7 @@ final class AppTest extends TestCase
     * @test
     * @expectedException \WebServCo\Framework\Exceptions\ApplicationException
     */
-    public function instantiationWithDummyParameterThrowsException()
+    public function instantiationWithDummyParameterThrowsException(): void
     {
         new App('foo');
     }
@@ -37,7 +40,7 @@ final class AppTest extends TestCase
     * @test
     * @expectedException \WebServCo\Framework\Exceptions\ApplicationException
     */
-    public function instantiationInvalidParameterThrowsException()
+    public function instantiationInvalidParameterThrowsException(): void
     {
         new App('/tmp', '/tmp');
     }
