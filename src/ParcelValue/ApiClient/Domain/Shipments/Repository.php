@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace ParcelValue\ApiClient\Domain\Shipments;
 
 use ParcelValue\Api\JsonApi\ResourceObjects\Shipment;
@@ -6,14 +9,17 @@ use WebServCo\Framework\Exceptions\ApplicationException;
 
 final class Repository extends \ParcelValue\ApiClient\AbstractRepository
 {
-    public function getShipment()
+    public function getShipment(): Shipment
     {
-        $shipmentConfig = $this->config()->load('Shipment', $this->config()->get('path/project'));
+        $shipmentConfig = $this->config()->load(
+            'Shipment',
+            \WebServCo\Framework\Environment\Config::string('APP_PATH_PROJECT'),
+        );
         $this->verifyShipmentConfig($shipmentConfig);
 
         $shipment = new Shipment();
 
-        $shipment->setAttribute('shipDate', date(Shipment::DATE_FORMAT, strtotime('next tuesday')));
+        $shipment->setAttribute('shipDate', \date(Shipment::DATE_FORMAT, \strtotime('next tuesday')));
 
         $shipment->setAttribute('shipFrom', $shipmentConfig['attributes']['shipFrom']);
         $shipment->setAttribute('shipTo', $shipmentConfig['attributes']['shipTo']);
@@ -21,24 +27,29 @@ final class Repository extends \ParcelValue\ApiClient\AbstractRepository
         $shipment->setAttribute('goodsDescription', $shipmentConfig['attributes']['goodsDescription']);
         $shipment->setAttribute('invoiceSubtotal', $shipmentConfig['attributes']['invoiceSubtotal']);
         foreach (['useCod', 'saturdayDelivery'] as $item) {
-            if (isset($shipmentConfig['attributes'][$item])) {
-                $shipment->setAttribute($item, $shipmentConfig['attributes'][$item]);
+            if (!isset($shipmentConfig['attributes'][$item])) {
+                continue;
             }
+
+            $shipment->setAttribute($item, $shipmentConfig['attributes'][$item]);
         }
         $shipment->setService($shipmentConfig['meta']['service']);
 
         return $shipment;
     }
 
-    protected function verifyShipmentConfig($shipmentConfig)
+    /**
+    * @param array<mixed> $shipmentConfig
+    */
+    protected function verifyShipmentConfig(array $shipmentConfig): bool
     {
-        if (empty($shipmentConfig) || !is_array($shipmentConfig)) {
+        if (empty($shipmentConfig) || !\is_array($shipmentConfig)) {
             throw new ApplicationException('Missing or invalid shipment configuration');
         }
         foreach (['shipFrom', 'shipTo', 'packages'] as $item) {
-            if (!isset($shipmentConfig['attributes'][$item]) || !is_array($shipmentConfig['attributes'][$item])) {
+            if (!isset($shipmentConfig['attributes'][$item]) || !\is_array($shipmentConfig['attributes'][$item])) {
                 throw new ApplicationException(
-                    sprintf('Missing or invalid shipment configuration attribute: %s', $item)
+                    \sprintf('Missing or invalid shipment configuration attribute: %s', $item),
                 );
             }
         }

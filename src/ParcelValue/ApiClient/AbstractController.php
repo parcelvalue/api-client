@@ -1,39 +1,22 @@
 <?php
+
+declare(strict_types=1);
+
 namespace ParcelValue\ApiClient;
 
 abstract class AbstractController extends \WebServCo\Framework\AbstractController
 {
-    protected $apiUrl;
-    protected $apiVersion;
-    protected $clientId;
-    protected $clientKey;
-    protected $serverKey;
-
-    protected $repository;
-
     use \ParcelValue\ApiClient\Traits\ControllerTrait;
 
     public function __construct()
     {
+        $projectPath = \WebServCo\Framework\Environment\Config::string('APP_PATH_PROJECT');
+
         // no library code before calling the parent constructor
-        $outputLoader = new OutputLoader($this->config()->get('app/path/project'));
+        $outputLoader = new OutputLoader($projectPath);
+
         parent::__construct($outputLoader);
 
         $this->setupPaths();
-
-        /* custom configuration settings */
-        $this->config()->add(
-            'app',
-            $this->config()->load(
-                'App',
-                $this->data('path/project')
-            )
-        );
-
-        $this->apiUrl = $this->config()->get('app/api/url');
-        $this->apiVersion = $this->config()->get('app/api/version');
-        $this->clientId = $this->config()->get('app/api/clientId');
-        $this->clientKey = $this->config()->get('app/api/clientKey');
-        $this->serverKey = $this->config()->get('app/api/serverKey');
     }
 }

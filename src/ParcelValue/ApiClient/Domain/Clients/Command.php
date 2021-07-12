@@ -1,84 +1,48 @@
 <?php
-namespace ParcelValue\ApiClient\Domain\Clients;
 
-use ParcelValue\Api\AuthenticationToken;
+declare(strict_types=1);
+
+namespace ParcelValue\ApiClient\Domain\Clients;
 
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
+use WebServCo\Framework\Environment\Config;
 use WebServCo\Framework\Http\Method;
+use WebServCo\Framework\Interfaces\ResponseInterface;
 
 final class Command extends \ParcelValue\ApiClient\AbstractController
 {
-    protected $jwt;
-
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
+
+    protected string $jwt;
+
+    protected \WebServCo\Framework\Interfaces\OutputLoggerInterface $outputLogger;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->repository = new Repository($this->outputLoader);
-
-        $this->validateApiConfig();
-
         $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
-            $this->clientId,
-            $this->clientKey,
-            $this->serverKey
+            Config::int('APP_API_CLIENT_ID'),
+            Config::string('APP_API_CLIENT_KEY'),
+            Config::int('APP_API_SERVER_KEY'),
         );
+
+        $this->outputLogger = new \WebServCo\Framework\Log\CliOutputLogger();
     }
 
-    public function current()
+    public function current(): ResponseInterface
     {
-        $this->outputCli(Ansi::clear(), true);
-        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+        $this->init();
 
-        $url = sprintf('%s%s/clients/current', $this->apiUrl, $this->apiVersion);
+        $this->outputLogger->debug(Ansi::clear(), true);
+        $this->outputLogger->debug(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+
+        $url = \sprintf('%s%s/clients/current', $this->apiUrl, $this->apiVersion);
 
         $this->handleApiCall($this->jwt, $url, Method::GET);
 
         return new Response('', true);
-    }
-
-    public function generateAuthenticationToken()
-    {
-        $this->outputCli(Ansi::clear(), true);
-        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
-        $this->outputCli();
-
-        $jwt = AuthenticationToken::generate($this->clientId, $this->clientKey, $this->serverKey);
-        $this->outputCli(Ansi::sgr('Success!', [Sgr::GREEN]), false);
-        $this->outputCli(' Your token is:', true);
-        $this->outputCli();
-        $this->outputCli($jwt, true);
-        $this->outputCli();
-        return new \WebServCo\Framework\Cli\Response('', true);
-    }
-
-    public function validateAuthenticationToken($token)
-    {
-        $this->outputCli(Ansi::clear(), true);
-        $this->outputCli(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
-        $this->outputCli();
-        $this->outputCli(sprintf('Input: %s', $token), true);
-        $this->outputCli();
-
-        try {
-            $result = AuthenticationToken::decode($token, $this->serverKey);
-            $this->outputCli(Ansi::sgr('Success!', [Sgr::GREEN]), true);
-            $this->outputCli(var_export($result, true), true);
-        } catch (\Exception $e) {
-            $this->outputCli(
-                Ansi::sgr(
-                    sprintf('Error: %s', $e->getMessage()),
-                    [Sgr::RED]
-                ),
-                true
-            );
-        }
-
-        $this->outputCli();
-        return new \WebServCo\Framework\Cli\Response('', true);
     }
 }
