@@ -44,7 +44,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output(Ansi::clear(), true);
         $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $url = \sprintf('%s%s/shipments', Config::int('APP_API_URL'), Config::int('APP_API_VERSION'));
+        $url = \sprintf('%s%s/shipments', Config::string('APP_API_URL'), Config::string('APP_API_VERSION'));
 
         $shipment = $this->repository->getShipment();
         $document = new Document();
@@ -62,7 +62,12 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output(Ansi::clear(), true);
         $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $url = \sprintf('%s%s/shipments/%s', Config::int('APP_API_URL'), Config::int('APP_API_VERSION'), $shipmentId);
+        $url = \sprintf(
+            '%s%s/shipments/%s',
+            Config::string('APP_API_URL'),
+            Config::string('APP_API_VERSION'),
+            $shipmentId,
+        );
 
         $this->handleApiCall($this->jwt, $url, Method::GET, '');
 
@@ -78,8 +83,8 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
 
         $url = \sprintf(
             '%s%s/shipments/%s/documents',
-            Config::int('APP_API_URL'),
-            Config::int('APP_API_VERSION'),
+            Config::string('APP_API_URL'),
+            Config::string('APP_API_VERSION'),
             $shipmentId,
         );
 

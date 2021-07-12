@@ -53,7 +53,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         return new Response();
     }
 
-    public function validate(string $token): ResponseInterface
+    public function validate(?string $token = null): ResponseInterface
     {
         $this->init();
 
@@ -64,6 +64,9 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output('');
 
         try {
+            if (!$token) {
+                throw new \InvalidArgumentException('Token is missing.');
+            }
             $result = AuthenticationToken::decode($token, Config::string('APP_API_SERVER_KEY'));
             $this->outputLogger->output(Ansi::sgr('Success!', [Sgr::GREEN]), true);
             $this->outputLogger->output(\var_export($result, true), true);

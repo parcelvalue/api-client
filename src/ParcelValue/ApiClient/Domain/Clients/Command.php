@@ -39,7 +39,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output(Ansi::clear(), true);
         $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $url = \sprintf('%s%s/clients/current', Config::int('APP_API_URL'), Config::int('APP_API_VERSION'));
+        $url = \sprintf('%s%s/clients/current', Config::string('APP_API_URL'), Config::string('APP_API_VERSION'));
 
         $this->handleApiCall($this->jwt, $url, Method::GET, '');
 
