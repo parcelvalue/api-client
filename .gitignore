@@ -3,3 +3,4 @@ composer.lock
 
 # Configuration
 config/.env.ini
+config/Shipment.php
