@@ -24,35 +24,35 @@ return [
             'country' => 'DE',
             'contact' => 'Receiver contact name',
             'phone' => '0987654321',
-            'email' => 'receiver@ship.to'
+            'email' => 'receiver@ship.to',
         ],
         'packages' => [
             [
                 'weight' => [
                     'value' => '1.2',
-                    'units' => '1'
+                    'units' => '1',
                 ],
                 'dimensions' => [
                     'length' => '32',
                     'width' => '33',
                     'height' => '34',
-                    'units' => '1'
+                    'units' => '1',
                 ],
                 'type' => 'CARTON',
             ],
             [
                 'weight' => [
                     'value' => '1.9',
-                    'units' => '1'
+                    'units' => '1',
                 ],
                 'dimensions' => [
                     'length' => '32',
                     'width' => '33',
                     'height' => '34',
-                    'units' => '1'
+                    'units' => '1',
                 ],
                 'type' => 'CARTON',
-            ]
+            ],
         ],
         'goodsDescription' => 'Items from order #1',
         'invoiceSubtotal' => [
