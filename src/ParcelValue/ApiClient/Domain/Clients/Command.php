@@ -24,9 +24,9 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         parent::__construct();
 
         $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
-            Config::int('APP_API_CLIENT_ID'),
+            Config::string('APP_API_CLIENT_ID'),
             Config::string('APP_API_CLIENT_KEY'),
-            Config::int('APP_API_SERVER_KEY'),
+            Config::string('APP_API_SERVER_KEY'),
         );
 
         $this->outputLogger = new \WebServCo\Framework\Log\CliOutputLogger();
@@ -36,13 +36,13 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
     {
         $this->init();
 
-        $this->outputLogger->debug(Ansi::clear(), true);
-        $this->outputLogger->debug(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+        $this->outputLogger->output(Ansi::clear(), true);
+        $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
 
-        $url = \sprintf('%s%s/clients/current', $this->apiUrl, $this->apiVersion);
+        $url = \sprintf('%s%s/clients/current', Config::int('APP_API_URL'), Config::int('APP_API_VERSION'));
 
-        $this->handleApiCall($this->jwt, $url, Method::GET);
+        $this->handleApiCall($this->jwt, $url, Method::GET, '');
 
-        return new Response('', true);
+        return new Response();
     }
 }

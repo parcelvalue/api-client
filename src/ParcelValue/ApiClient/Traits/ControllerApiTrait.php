@@ -32,29 +32,28 @@ trait ControllerApiTrait
     */
     protected function handleApiCall(string $jwt, string $url, string $method, $requestData): bool
     {
-        $this->outputLogger->debug('', true);
-        $this->outputLogger->debug(\sprintf('REQUEST: %s %s', $method, $url), true);
+        $this->outputLogger->output('', true);
+        $this->outputLogger->output(\sprintf('REQUEST: %s %s', $method, $url), true);
 
         $logger = new \WebServCo\Framework\Log\FileLogger(
             'ParcelValueAPI',
             \sprintf('%svar/log/', $this->data('path/project', '')),
-            $this->request(),
         );
 
         $apiHelper = new \ParcelValue\Api\Helper($logger, $jwt);
         $this->httpResponse = $apiHelper->getResponse($url, $method, $requestData);
 
         if (Method::POST === $method) {
-            $this->outputLogger->debug('', true);
-            $this->outputLogger->debug($requestData, true);
+            $this->outputLogger->output('', true);
+            $this->outputLogger->output(\var_export($requestData, true), true);
         }
 
         $this->responseStatus = $this->httpResponse->getStatus();
         $this->responseContent = $this->httpResponse->getContent();
 
-        $this->outputLogger->debug('', true);
+        $this->outputLogger->output('', true);
         $statusCodes = \WebServCo\Framework\Http\StatusCode::getSupported();
-        $this->outputLogger->debug(
+        $this->outputLogger->output(
             \sprintf(
                 'RESPONSE: %s',
                 Ansi::sgr(
@@ -68,11 +67,11 @@ trait ControllerApiTrait
             ),
             true,
         );
-        $this->outputLogger->debug('', true);
-        $this->outputLogger->debug($this->responseContent, true);
+        $this->outputLogger->output('', true);
+        $this->outputLogger->output($this->responseContent, true);
 
-        $this->outputLogger->debug('', true);
-        $this->outputLogger->debug(
+        $this->outputLogger->output('', true);
+        $this->outputLogger->output(
             \sprintf(
                 'Processed result: %s',
                 \json_encode(\json_decode($this->responseContent, true), \JSON_PRETTY_PRINT),
