@@ -71,13 +71,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
             $this->outputLogger->output(Ansi::sgr('Success!', [Sgr::GREEN]), true);
             $this->outputLogger->output(\var_export($result, true), true);
         } catch (\Throwable $e) {
-            $this->outputLogger->output(
-                Ansi::sgr(
-                    \sprintf('Error: %s', $e->getMessage()),
-                    [Sgr::RED],
-                ),
-                true,
-            );
+            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
         }
 
         $this->outputLogger->output('');

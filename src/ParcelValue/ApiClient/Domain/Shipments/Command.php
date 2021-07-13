@@ -55,7 +55,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         return new Response();
     }
 
-    public function retrieve(string $shipmentId): ResponseInterface
+    public function retrieve(?string $shipmentId = null): ResponseInterface
     {
         $this->init();
 
@@ -69,12 +69,19 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
             $shipmentId,
         );
 
-        $this->handleApiCall($this->jwt, $url, Method::GET, '');
+        try {
+            if (!$shipmentId) {
+                throw new \InvalidArgumentException('Shipment ID is missing.');
+            }
+            $this->handleApiCall($this->jwt, $url, Method::GET, '');
+        } catch (\Throwable $e) {
+            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
+        }
 
         return new Response();
     }
 
-    public function downloadDocuments(string $shipmentId): ResponseInterface
+    public function downloadDocuments(?string $shipmentId = null): ResponseInterface
     {
         $this->init();
 
@@ -88,28 +95,37 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
             $shipmentId,
         );
 
-        $this->handleApiCall($this->jwt, $url, Method::GET, '');
-
-        $data = \json_decode($this->responseContent, true);
-        if (isset($data['data']['attributes']['fileData']) && isset($data['data']['attributes']['fileName'])) {
-            $filePath = \sprintf(
-                '%svar/tmp/%s',
-                $this->config()->get('app/path/project'),
-                $data['data']['attributes']['fileName'],
-            );
-            try {
-                \file_put_contents($filePath, \base64_decode($data['data']['attributes']['fileData'], true));
-                $this->outputLogger->output(
-                    Ansi::sgr(\sprintf('Shipment documents saved: %s', $filePath), [Sgr::GREEN]),
-                    true,
-                );
-            } catch (\Throwable $e) {
-                $this->outputLogger->output(
-                    Ansi::sgr(\sprintf('Error saving shipment documents: %s', $e->getMessage()), [Sgr::RED]),
-                    true,
-                );
+        try {
+            if (!$shipmentId) {
+                throw new \InvalidArgumentException('Shipment ID is missing.');
             }
+
+            $this->handleApiCall($this->jwt, $url, Method::GET, '');
+
+            $data = \json_decode($this->responseContent, true);
+            if (isset($data['data']['attributes']['fileData']) && isset($data['data']['attributes']['fileName'])) {
+                $filePath = \sprintf(
+                    '%svar/tmp/%s',
+                    $this->config()->get('app/path/project'),
+                    $data['data']['attributes']['fileName'],
+                );
+                try {
+                    \file_put_contents($filePath, \base64_decode($data['data']['attributes']['fileData'], true));
+                    $this->outputLogger->output(
+                        Ansi::sgr(\sprintf('Shipment documents saved: %s', $filePath), [Sgr::GREEN]),
+                        true,
+                    );
+                } catch (\Throwable $e) {
+                    $this->outputLogger->output(
+                        Ansi::sgr(\sprintf('Error saving shipment documents: %s', $e->getMessage()), [Sgr::RED]),
+                        true,
+                    );
+                }
+            }
+        } catch (\Throwable $e) {
+            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
         }
+
         return new Response();
     }
 }
