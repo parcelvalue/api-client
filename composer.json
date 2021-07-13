@@ -18,7 +18,7 @@
         "php" : "^7.4",
         "parcelvalue/api" : "^3",
         "webservco/api" : "^2",
-        "webservco/framework" : "^11",
+        "webservco/framework" : "^11"
     },
     "require-dev" : {
         "pds/skeleton" : "^1.0",
