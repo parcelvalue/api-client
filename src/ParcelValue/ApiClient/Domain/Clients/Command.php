@@ -23,7 +23,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
     {
         parent::__construct();
 
-        $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
+        $this->jwt = \ParcelValue\Api\JWT\Helper::generate(
             Config::string('APP_API_CLIENT_ID'),
             Config::string('APP_API_CLIENT_KEY'),
             Config::string('APP_API_SERVER_KEY'),

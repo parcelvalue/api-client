@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient\Domain\AuthenticationToken;
 
-use ParcelValue\Api\AuthenticationToken;
+use ParcelValue\Api\JWT\Helper;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
@@ -15,19 +15,11 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
 {
     use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
 
-    protected string $jwt;
-
     protected \WebServCo\Framework\Interfaces\OutputLoggerInterface $outputLogger;
 
     public function __construct()
     {
         parent::__construct();
-
-        $this->jwt = \ParcelValue\Api\AuthenticationToken::generate(
-            Config::string('APP_API_CLIENT_ID'),
-            Config::string('APP_API_CLIENT_KEY'),
-            Config::string('APP_API_SERVER_KEY'),
-        );
 
         $this->outputLogger = new \WebServCo\Framework\Log\CliOutputLogger();
     }
@@ -40,7 +32,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
         $this->outputLogger->output('');
 
-        $jwt = AuthenticationToken::generate(
+        $jwt = Helper::generate(
             Config::string('APP_API_CLIENT_ID'),
             Config::string('APP_API_CLIENT_KEY'),
             Config::string('APP_API_SERVER_KEY'),
@@ -67,7 +59,8 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
             if (!$token) {
                 throw new \InvalidArgumentException('Token is missing.');
             }
-            $result = AuthenticationToken::decode($token, Config::string('APP_API_SERVER_KEY'));
+            // \ParcelValue\Api\JWT\Payload
+            $result = Helper::decode($token, Config::string('APP_API_SERVER_KEY'));
             $this->outputLogger->output(Ansi::sgr('Success!', [Sgr::GREEN]), true);
             $this->outputLogger->output(\var_export($result, true), true);
         } catch (\Throwable $e) {
