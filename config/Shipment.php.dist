@@ -59,7 +59,6 @@ return [
             'amount' => 13.69,
             'currency' => \ParcelValue\Api\JsonApi\ResourceObjects\Shipment::CURRENCY_EUR,
         ],
-        'useCod' => true,
         'saturdayDelivery' => true,
     ],
     'meta' => [
