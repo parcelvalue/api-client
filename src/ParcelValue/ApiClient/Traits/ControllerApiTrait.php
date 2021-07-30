@@ -37,7 +37,7 @@ trait ControllerApiTrait
 
         $logger = new \WebServCo\Framework\Log\FileLogger(
             'ParcelValueAPI',
-            \sprintf('%svar/log/', $this->data('path/project', '')),
+            \sprintf('%svar/log/', \WebServCo\Framework\Environment\Config::string('APP_PATH_PROJECT')),
         );
 
         $apiHelper = new \ParcelValue\Api\Helper($logger, $jwt);

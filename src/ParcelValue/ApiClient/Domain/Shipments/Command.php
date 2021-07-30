@@ -106,7 +106,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
             if (isset($data['data']['attributes']['fileData']) && isset($data['data']['attributes']['fileName'])) {
                 $filePath = \sprintf(
                     '%svar/tmp/%s',
-                    $this->config()->get('app/path/project'),
+                    Config::string('APP_PATH_PROJECT'),
                     $data['data']['attributes']['fileName'],
                 );
                 try {
