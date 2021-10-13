@@ -14,5 +14,5 @@ bin/cli AuthenticationToken/generate
 ## Valdiate a JSON Web Token
 
 ```sh
-bin/cli AuthenticationToken/validate
+bin/cli AuthenticationToken/validate {TOKEN}
 ```
