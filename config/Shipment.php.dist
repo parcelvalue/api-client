@@ -59,7 +59,10 @@ return [
             'amount' => 13.69,
             'currency' => \ParcelValue\Api\JsonApi\ResourceObjects\Shipment::CURRENCY_EUR,
         ],
-        'saturdayDelivery' => true,
+        'customerReference' => 'REF 123',
+        'specialInstructions' => 'Second door on the left',
+        'confirmationEmail' => 'documents@ship.from',
+        'booking' => true,
     ],
     'meta' => [
         'service' => 'express',

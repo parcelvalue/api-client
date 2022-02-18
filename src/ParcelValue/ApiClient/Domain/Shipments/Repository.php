@@ -26,13 +26,15 @@ final class Repository extends \ParcelValue\ApiClient\AbstractRepository
         $shipment->setAttribute('packages', $shipmentConfig['attributes']['packages']);
         $shipment->setAttribute('goodsDescription', $shipmentConfig['attributes']['goodsDescription']);
         $shipment->setAttribute('invoiceSubtotal', $shipmentConfig['attributes']['invoiceSubtotal']);
-        foreach (['saturdayDelivery'] as $item) {
+        foreach (['booking'] as $item) {
             if (!isset($shipmentConfig['attributes'][$item])) {
                 continue;
             }
-
             $shipment->setAttribute($item, $shipmentConfig['attributes'][$item]);
         }
+        $shipment->setAttribute('customerReference', $shipmentConfig['attributes']['customerReference']);
+        $shipment->setAttribute('specialInstructions', $shipmentConfig['attributes']['specialInstructions']);
+        $shipment->setAttribute('confirmationEmail', $shipmentConfig['attributes']['confirmationEmail']);
         $shipment->setService($shipmentConfig['meta']['service']);
 
         return $shipment;
