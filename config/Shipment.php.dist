@@ -55,6 +55,8 @@ return [
             ],
         ],
         'goodsDescription' => 'Items from order #1',
+        'insuranceDescription' => 'Testers',
+        'insuranceValue' => 123.45,
         'invoiceSubtotal' => [
             'amount' => 13.69,
             'currency' => \ParcelValue\Api\JsonApi\ResourceObjects\Shipment::CURRENCY_EUR,
