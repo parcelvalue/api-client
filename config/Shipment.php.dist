@@ -67,6 +67,7 @@ return [
         'booking' => true,
     ],
     'meta' => [
+        'scheduledProcessing' => true,
         'service' => 'express',
     ],
 ];

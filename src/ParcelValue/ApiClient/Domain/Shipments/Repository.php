@@ -37,6 +37,7 @@ final class Repository extends \ParcelValue\ApiClient\AbstractRepository
         $shipment->setAttribute('customerReference', $shipmentConfig['attributes']['customerReference']);
         $shipment->setAttribute('specialInstructions', $shipmentConfig['attributes']['specialInstructions']);
         $shipment->setAttribute('confirmationEmail', $shipmentConfig['attributes']['confirmationEmail']);
+        $shipment->setScheduledProcessing((bool) $shipmentConfig['meta']['scheduledProcessing']);
         $shipment->setService($shipmentConfig['meta']['service']);
 
         return $shipment;
@@ -57,8 +58,11 @@ final class Repository extends \ParcelValue\ApiClient\AbstractRepository
                 );
             }
         }
+        if (!isset($shipmentConfig['meta']['scheduledProcessing'])) {
+            throw new ApplicationException('Missing or invalid shipment configuration meta: scheduledProcessing.');
+        }
         if (!isset($shipmentConfig['meta']['service'])) {
-            throw new ApplicationException('Missing or invalid shipment configuration meta: service');
+            throw new ApplicationException('Missing or invalid shipment configuration meta: service.');
         }
         return true;
     }
