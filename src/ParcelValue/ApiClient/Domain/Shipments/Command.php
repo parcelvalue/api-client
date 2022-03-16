@@ -55,32 +55,6 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         return new Response();
     }
 
-    public function retrieve(?string $shipmentId = null): ResponseInterface
-    {
-        $this->init();
-
-        $this->outputLogger->output(Ansi::clear(), true);
-        $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
-
-        $url = \sprintf(
-            '%s%s/shipments/%s',
-            Config::string('APP_API_URL'),
-            Config::string('APP_API_VERSION'),
-            $shipmentId,
-        );
-
-        try {
-            if (!$shipmentId) {
-                throw new \InvalidArgumentException('Shipment ID is missing.');
-            }
-            $this->handleApiCall($this->jwt, $url, Method::GET, '');
-        } catch (\Throwable $e) {
-            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
-        }
-
-        return new Response();
-    }
-
     public function downloadDocuments(?string $shipmentId = null): ResponseInterface
     {
         $this->init();
@@ -122,6 +96,32 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
                     );
                 }
             }
+        } catch (\Throwable $e) {
+            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
+        }
+
+        return new Response();
+    }
+
+    public function retrieve(?string $shipmentId = null): ResponseInterface
+    {
+        $this->init();
+
+        $this->outputLogger->output(Ansi::clear(), true);
+        $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
+
+        $url = \sprintf(
+            '%s%s/shipments/%s',
+            Config::string('APP_API_URL'),
+            Config::string('APP_API_VERSION'),
+            $shipmentId,
+        );
+
+        try {
+            if (!$shipmentId) {
+                throw new \InvalidArgumentException('Shipment ID is missing.');
+            }
+            $this->handleApiCall($this->jwt, $url, Method::GET, '');
         } catch (\Throwable $e) {
             $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
         }
