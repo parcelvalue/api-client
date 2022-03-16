@@ -6,7 +6,6 @@ namespace ParcelValue\ApiClient;
 
 final class OutputLoader extends \WebServCo\Framework\AbstractOutputLoader
 {
-
     public function __construct(string $projectPath)
     {
         parent::__construct(
