@@ -33,3 +33,9 @@ bin/cli Shipments/retrieve <shipmentId>
 ```bash
 bin/cli Shipments/downloadDocuments <shipmentId>
 ```
+
+## Get tracking info
+
+```bash
+bin/cli Shipments/getTrackingInfo <shipmentId>
+```
