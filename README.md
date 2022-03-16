@@ -25,4 +25,4 @@ Create and retrieve shipments.
 * [Create or retrieve shipments](/docs/Shipments.md)
 
 ### ParcelValue API documentation
-For up to date API documentation please see the [ParcelValue API](https://github.com/parcelvalue/api) project.
+For up to date API documentation please see the [ParcelValue API](https://parcelvalue.github.io/api/) project.
