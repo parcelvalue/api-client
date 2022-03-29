@@ -39,7 +39,7 @@
         }
     },
     "scripts" : {
-        "all": "clear && composer lint && composer check && composer s:8 && composer test",
+        "all": "composer lint && composer check && composer s:8 && composer test",
         "check" : "vendor/bin/phpcs --standard=php-coding-standard.xml --extensions=php -sp config public resources src tests",
         "check:summary" : "vendor/bin/phpcs --standard=php-coding-standard.xml --extensions=php -sp --report=source config public resources src tests",
         "check:structure" : "vendor/bin/pds-skeleton validate .",
