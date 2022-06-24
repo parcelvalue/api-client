@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Run code validation
+composer all
+
+if [ $? != 0 ]
+then
+    echo ""
+    echo "ERROR!"
+    echo "Code validation failed."
+    echo "Please fix all problems before continuing."
+    echo ""
+    exit 1
+fi
+
+exit $?

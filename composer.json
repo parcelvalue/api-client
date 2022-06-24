@@ -47,6 +47,8 @@
         "s:8": "vendor/bin/phpstan analyse config public resources src tests --level=8 --ansi -c phpstan.neon",
         "s:strict": "clear && vendor/bin/phpstan analyse public src --level=8 --ansi -c phpstan-strict.neon",
         "test" : "vendor/bin/phpunit --colors=always",
-        "test:d" : "vendor/bin/phpunit --testdox"
+        "test:d" : "vendor/bin/phpunit --testdox",
+        "post-install-cmd": "bash ./bin/git_hooks/setup.sh",
+        "post-update-cmd": "bash ./bin/git_hooks/setup.sh"
     }
 }
