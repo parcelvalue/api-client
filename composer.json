@@ -50,5 +50,10 @@
         "test:d" : "vendor/bin/phpunit --testdox",
         "post-install-cmd": "bash ./bin/git_hooks/setup.sh",
         "post-update-cmd": "bash ./bin/git_hooks/setup.sh"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
