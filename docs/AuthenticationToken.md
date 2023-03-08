@@ -9,7 +9,7 @@ Please see the [Installation documentation](Installation.md) for information on 
 bin/cli AuthenticationToken/generate
 ```
 
-## Valdiate a JSON Web Token
+## Validate a JSON Web Token
 
 ```bash
 bin/cli AuthenticationToken/validate {TOKEN}
