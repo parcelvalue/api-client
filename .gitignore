@@ -1,6 +1,9 @@
 vendor/
 composer.lock
 
+# phpStorm
+.idea
+
 # Configuration
 config/.env.ini
 config/.env.ini.v*
