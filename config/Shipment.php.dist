@@ -14,6 +14,7 @@ return [
             'contact' => 'Sender contact name',
             'phone' => '1234567890',
             'email' => 'sender@ship.from',
+            'taxIdentification' => '152731102024',
         ],
         'shipTo' => [
             'name' => 'Receiver name',
@@ -25,6 +26,7 @@ return [
             'contact' => 'Receiver contact name',
             'phone' => '0987654321',
             'email' => 'receiver@ship.to',
+            'taxIdentification' => '152831102024',
         ],
         'packages' => [
             [
