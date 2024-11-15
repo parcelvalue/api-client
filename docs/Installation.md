@@ -9,6 +9,20 @@ git clone https://github.com/parcelvalue/api-client.git
 cd api-client
 # install dependencies
 composer update
+
+```
+
+## DDEV
+
+
+If you have DDEV installed:
+
+```shell
+# start project
+ddev start
+# install dependencies
+ddev composer update
+# then run all commands with the prefix `ddev exec`
 ```
 
 ## Configuration
