@@ -7,6 +7,7 @@ return [
         'shipFrom' => [
             'name' => 'Sender name',
             'address1' => 'Sender street',
+            'address2' => 'Sender line 2',
             'city' => 'Milano',
             'postalCode' => '20129',
             'state' => 'MI',
@@ -19,6 +20,7 @@ return [
         'shipTo' => [
             'name' => 'Receiver name',
             'address1' => 'Receiver street',
+            'address2' => 'Receiver line 2',
             'city' => 'Muenchen',
             'postalCode' => '80331',
             'state' => null,
