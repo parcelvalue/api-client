@@ -4,13 +4,22 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient;
 
-abstract class AbstractController extends \WebServCo\Framework\AbstractController
+use ParcelValue\ApiClient\Traits\ControllerTrait;
+use ParcelValue\ApiClient\Traits\DataTrait;
+use ParcelValue\ApiClient\Traits\LoggerTrait;
+use Throwable;
+use WebServCo\Framework\AbstractController as FrameworkAbstractController;
+use WebServCo\Framework\Environment\Config;
+
+abstract class AbstractController extends FrameworkAbstractController
 {
-    use \ParcelValue\ApiClient\Traits\ControllerTrait;
+    use ControllerTrait;
+    use DataTrait;
+    use LoggerTrait;
 
     public function __construct()
     {
-        $projectPath = \WebServCo\Framework\Environment\Config::string('APP_PATH_PROJECT');
+        $projectPath = Config::string('APP_PATH_PROJECT');
 
         // no library code before calling the parent constructor
         $outputLoader = new OutputLoader($projectPath);
@@ -18,5 +27,14 @@ abstract class AbstractController extends \WebServCo\Framework\AbstractControlle
         parent::__construct($outputLoader);
 
         $this->setupPaths();
+    }
+
+    protected function logThrowable(string $channel, Throwable $throwable): bool
+    {
+        $logger = $this->createLogger($channel);
+
+        $logger->error($throwable->getMessage(), ['throwable' => $throwable]);
+
+        return true;
     }
 }

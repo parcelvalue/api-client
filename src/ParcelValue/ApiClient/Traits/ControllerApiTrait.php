@@ -4,60 +4,84 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient\Traits;
 
+use ParcelValue\Api\Helper;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\Http\Method;
+use WebServCo\Framework\Http\StatusCode;
+use WebServCo\Framework\Interfaces\OutputLoggerInterface;
+use WebServCo\Framework\Interfaces\RequestInterface;
 use WebServCo\Framework\Interfaces\ResponseInterface;
+
+use function json_decode;
+use function json_encode;
+use function sprintf;
+use function var_export;
+
+use const JSON_PRETTY_PRINT;
 
 trait ControllerApiTrait
 {
+    use LoggerTrait;
+
     protected ResponseInterface $httpResponse;
     protected int $responseStatus;
     protected string $responseContent;
 
-    protected \WebServCo\Framework\Interfaces\OutputLoggerInterface $outputLogger;
+    protected OutputLoggerInterface $outputLogger;
 
     /**
      * Returns data if exists, $defaultValue otherwise.
-     *
-     * @param mixed $defaultValue
-     * @return mixed
      */
-    abstract public function data(string $key, $defaultValue = false);
+    abstract public function data(string $key, mixed $defaultValue = false): mixed;
 
-    abstract protected function request(): \WebServCo\Framework\Interfaces\RequestInterface;
+    abstract protected function request(): RequestInterface;
 
     /**
-    * @param array<string,mixed>|string $requestData
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<string,mixed>|string $requestData
     */
-    protected function handleApiCall(string $jwt, string $url, string $method, $requestData): bool
+    protected function handleApiCall(string $jwt, string $url, string $method, array|string $requestData): bool
     {
         $this->outputLogger->output('', true);
-        $this->outputLogger->output(\sprintf('REQUEST: %s %s', $method, $url), true);
+        $this->outputLogger->output(sprintf('REQUEST: %s %s', $method, $url), true);
 
-        $logger = new \WebServCo\Framework\Log\FileLogger(
-            'ParcelValueAPI',
-            \sprintf('%svar/log/', \WebServCo\Framework\Environment\Config::string('APP_PATH_PROJECT')),
-        );
+        $logger = $this->createLogger('ParcelValueAPI');
 
-        $apiHelper = new \ParcelValue\Api\Helper($logger, $jwt);
+        $apiHelper = new Helper($logger, $jwt);
         $this->httpResponse = $apiHelper->getResponse($url, $method, $requestData);
 
-        if (Method::POST === $method) {
+        if ($method === Method::POST) {
             $this->outputLogger->output('', true);
-            $this->outputLogger->output(\var_export($requestData, true), true);
+            $this->outputLogger->output(var_export($requestData, true), true);
         }
 
         $this->responseStatus = $this->httpResponse->getStatus();
         $this->responseContent = $this->httpResponse->getContent();
 
+        $this->logResponse();
+
         $this->outputLogger->output('', true);
-        $statusCodes = \WebServCo\Framework\Http\StatusCode::getSupported();
         $this->outputLogger->output(
-            \sprintf(
+            sprintf(
+                'Processed result: %s',
+                json_encode(json_decode($this->responseContent, true), JSON_PRETTY_PRINT),
+            ),
+            true,
+        );
+
+        return true;
+    }
+
+    private function logResponse(): bool
+    {
+        $this->outputLogger->output('', true);
+        $statusCodes = StatusCode::getSupported();
+        $this->outputLogger->output(
+            sprintf(
                 'RESPONSE: %s',
                 Ansi::sgr(
-                    \sprintf(
+                    sprintf(
                         '%s %s',
                         $this->responseStatus,
                         $statusCodes[$this->responseStatus] ?? '',
@@ -70,14 +94,6 @@ trait ControllerApiTrait
         $this->outputLogger->output('', true);
         $this->outputLogger->output($this->responseContent, true);
 
-        $this->outputLogger->output('', true);
-        $this->outputLogger->output(
-            \sprintf(
-                'Processed result: %s',
-                \json_encode(\json_decode($this->responseContent, true), \JSON_PRETTY_PRINT),
-            ),
-            true,
-        );
         return true;
     }
 }

@@ -6,6 +6,7 @@ namespace Tests\ParcelValue\ApiClient;
 
 use PHPUnit\Framework\TestCase;
 use WebServCo\Framework\Application;
+use WebServCo\Framework\Exceptions\ApplicationException;
 
 final class ApplicationTest extends TestCase
 {
@@ -14,7 +15,7 @@ final class ApplicationTest extends TestCase
     */
     public function instantiationWithEmptyParametersThrowsException(): Application
     {
-        $this->expectException(\WebServCo\Framework\Exceptions\ApplicationException::class);
+        $this->expectException(ApplicationException::class);
 
         return new Application('', '', null);
     }
@@ -24,7 +25,7 @@ final class ApplicationTest extends TestCase
     */
     public function instantiationWithDummyParametersThrowsException(): Application
     {
-        $this->expectException(\WebServCo\Framework\Exceptions\ApplicationException::class);
+        $this->expectException(ApplicationException::class);
 
         return new Application('foo', 'bar', null);
     }
@@ -34,7 +35,7 @@ final class ApplicationTest extends TestCase
     */
     public function instantiationInvalidParameterThrowsException(): Application
     {
-        $this->expectException(\WebServCo\Framework\Exceptions\ApplicationException::class);
+        $this->expectException(ApplicationException::class);
 
         return new Application('/tmp', '/tmp', null);
     }

@@ -4,14 +4,18 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient;
 
-final class OutputLoader extends \WebServCo\Framework\AbstractOutputLoader
+use WebServCo\Framework\AbstractOutputLoader;
+use WebServCo\Framework\Helpers\HtmlOutputLibraryHelper;
+use WebServCo\Framework\Helpers\JsonOutputLibraryHelper;
+
+final class OutputLoader extends AbstractOutputLoader
 {
     public function __construct(string $projectPath)
     {
         parent::__construct(
             $projectPath,
-            \WebServCo\Framework\Helpers\HtmlOutputLibraryHelper::library(),
-            \WebServCo\Framework\Helpers\JsonOutputLibraryHelper::library(),
+            HtmlOutputLibraryHelper::library(),
+            JsonOutputLibraryHelper::library(),
         );
     }
 
@@ -21,7 +25,8 @@ final class OutputLoader extends \WebServCo\Framework\AbstractOutputLoader
     }
 
     /**
-    * @param array<int|string,mixed> $data
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<int|string,mixed> $data
     */
     public function html(array $data, string $template): string
     {
@@ -29,7 +34,8 @@ final class OutputLoader extends \WebServCo\Framework\AbstractOutputLoader
     }
 
     /**
-    * @param array<int|string,mixed> $data
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<int|string,mixed> $data
     */
     public function htmlPage(array $data, string $pageTemplate, ?string $mainTemplate = null): string
     {
@@ -37,7 +43,8 @@ final class OutputLoader extends \WebServCo\Framework\AbstractOutputLoader
     }
 
     /**
-    * @param array<string,mixed> $data
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<string,mixed> $data
     */
     public function json(array $data): string
     {

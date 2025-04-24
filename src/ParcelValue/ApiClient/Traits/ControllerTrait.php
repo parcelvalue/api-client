@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient\Traits;
 
+use WebServCo\Framework\Interfaces\RequestInterface;
+
 trait ControllerTrait
 {
-    abstract protected function request(): \WebServCo\Framework\Interfaces\RequestInterface;
+    abstract protected function request(): RequestInterface;
 
     /**
+     * @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
      * @param mixed $key Can be an array, a string,
      *                          or a special formatted string
      *                          (eg 'i18n/lang').
      * @param mixed $value The value to be stored.
      * @return bool True on success and false on failure.
+     * @phpcs:enable
      */
-    abstract protected function setData($key, $value): bool;
+    abstract protected function setData(mixed $key, mixed $value): bool;
 
     protected function setupPaths(): void
     {

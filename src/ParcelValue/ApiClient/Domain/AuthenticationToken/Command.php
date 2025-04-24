@@ -4,24 +4,33 @@ declare(strict_types=1);
 
 namespace ParcelValue\ApiClient\Domain\AuthenticationToken;
 
+use InvalidArgumentException;
 use ParcelValue\Api\JWT\Helper;
+use ParcelValue\ApiClient\AbstractController;
+use ParcelValue\ApiClient\Traits\ControllerApiTrait;
+use Throwable;
 use WebServCo\Framework\Cli\Ansi;
 use WebServCo\Framework\Cli\Response;
 use WebServCo\Framework\Cli\Sgr;
 use WebServCo\Framework\Environment\Config;
+use WebServCo\Framework\Interfaces\OutputLoggerInterface;
 use WebServCo\Framework\Interfaces\ResponseInterface;
+use WebServCo\Framework\Log\CliOutputLogger;
 
-final class Command extends \ParcelValue\ApiClient\AbstractController
+use function sprintf;
+use function var_export;
+
+final class Command extends AbstractController
 {
-    use \ParcelValue\ApiClient\Traits\ControllerApiTrait;
+    use ControllerApiTrait;
 
-    protected \WebServCo\Framework\Interfaces\OutputLoggerInterface $outputLogger;
+    protected OutputLoggerInterface $outputLogger;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->outputLogger = new \WebServCo\Framework\Log\CliOutputLogger();
+        $this->outputLogger = new CliOutputLogger();
     }
 
     public function generate(): ResponseInterface
@@ -42,6 +51,7 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output('');
         $this->outputLogger->output($jwt, true);
         $this->outputLogger->output('');
+
         return new Response();
     }
 
@@ -52,22 +62,24 @@ final class Command extends \ParcelValue\ApiClient\AbstractController
         $this->outputLogger->output(Ansi::clear(), true);
         $this->outputLogger->output(Ansi::sgr(__METHOD__, [Sgr::BOLD]), true);
         $this->outputLogger->output('');
-        $this->outputLogger->output(\sprintf('Input: %s', $token), true);
+        $this->outputLogger->output(sprintf('Input: %s', $token), true);
         $this->outputLogger->output('');
 
         try {
-            if (!$token) {
-                throw new \InvalidArgumentException('Token is missing.');
+            if ($token === null) {
+                throw new InvalidArgumentException('Token is missing.');
             }
             // \ParcelValue\Api\JWT\Payload
             $result = Helper::decode($token, Config::string('APP_API_SERVER_KEY'));
             $this->outputLogger->output(Ansi::sgr('Success!', [Sgr::GREEN]), true);
-            $this->outputLogger->output(\var_export($result, true), true);
-        } catch (\Throwable $e) {
-            $this->outputLogger->output(Ansi::sgr(\sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
+            $this->outputLogger->output(var_export($result, true), true);
+        } catch (Throwable $e) {
+            $this->logThrowable('AuthenticationToken', $e);
+            $this->outputLogger->output(Ansi::sgr(sprintf('Error: %s', $e->getMessage()), [Sgr::RED]), true);
         }
 
         $this->outputLogger->output('');
+
         return new Response();
     }
 }

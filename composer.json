@@ -15,20 +15,25 @@
         }
     ],
     "require": {
-        "php" : "^8.3",
-        "parcelvalue/api" : "@dev",
-        "webservco/api" : "@dev",
-        "webservco/framework" : "@dev"
+        "php" : "^8.4",
+        "parcelvalue/api" : "^3",
+        "webservco/api" : "^3",
+        "webservco/framework" : "^13",
+        "webservco/log" : "^1"
     },
     "require-dev" : {
         "pds/skeleton" : "^1.0",
-        "phpunit/phpunit" : "^9.5",
-        "php-parallel-lint/php-parallel-lint": "^1.2",
-        "php-parallel-lint/php-console-highlighter": "^0.5",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "phpstan/phpstan" : "^0.12",
-        "slevomat/coding-standard": "^6.4",
-        "squizlabs/php_codesniffer" : "^3.5"
+        "phpunit/phpunit" : "^9",
+        "phpcompatibility/php-compatibility": "^9",
+        "php-parallel-lint/php-parallel-lint": "^1",
+        "php-parallel-lint/php-console-highlighter": "^1",
+        "phpstan/phpstan-deprecation-rules": "^2",
+        "phpstan/phpstan-strict-rules": "^2",
+        "phpstan/phpstan-phpunit": "^2",
+        "phpstan/phpstan" : "^2",
+        "slevomat/coding-standard": "^8",
+        "squizlabs/php_codesniffer" : "^3",
+        "webservco/coding-standards": "^1"
     },
     "suggest" : {
     },
@@ -39,13 +44,15 @@
         }
     },
     "scripts" : {
-        "all": "composer lint && composer check && composer s:8 && composer test",
-        "check" : "vendor/bin/phpcs --standard=php-coding-standard.xml --extensions=php -sp config public resources src tests",
-        "check:summary" : "vendor/bin/phpcs --standard=php-coding-standard.xml --extensions=php -sp --report=source config public resources src tests",
-        "check:structure" : "vendor/bin/pds-skeleton validate .",
-        "lint": "vendor/bin/parallel-lint config public resources src tests",
-        "s:8": "vendor/bin/phpstan analyse config public resources src tests --level=8 --ansi -c phpstan.neon",
-        "s:strict": "clear && vendor/bin/phpstan analyse public src --level=8 --ansi -c phpstan-strict.neon",
+        "check:lint": "vendor/bin/parallel-lint config public resources src tests",
+        "check:phpcs": "vendor/bin/phpcs --standard=.phpcs/php-coding-standard.xml --extensions=php -sp bin config public resources src tests",
+        "check:phpstan": "vendor/bin/phpstan analyse bin config public resources src tests --ansi -c vendor/webservco/coding-standards/phpstan/phpstan.neon --level=max",
+        "check": [
+            "@check:lint",
+            "@check:phpcs",
+            "@check:phpstan"
+        ],
+        "c": "@check",
         "test" : "vendor/bin/phpunit --colors=always",
         "test:d" : "vendor/bin/phpunit --testdox",
         "post-install-cmd": "bash ./bin/git_hooks/setup.sh",
