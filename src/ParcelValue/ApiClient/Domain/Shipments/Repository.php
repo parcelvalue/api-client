@@ -37,6 +37,7 @@ final class Repository extends \ParcelValue\ApiClient\AbstractRepository
         $shipment->setAttribute('customerReference', $shipmentConfig['attributes']['customerReference']);
         $shipment->setAttribute('specialInstructions', $shipmentConfig['attributes']['specialInstructions']);
         $shipment->setAttribute('confirmationEmail', $shipmentConfig['attributes']['confirmationEmail']);
+        $shipment->setAttribute('incoTerms', $shipmentConfig['attributes']['incoTerms']);
         $shipment->setScheduledProcessing((bool) $shipmentConfig['meta']['scheduledProcessing']);
         $shipment->setService($shipmentConfig['meta']['service']);
 

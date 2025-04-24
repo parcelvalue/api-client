@@ -69,6 +69,7 @@ return [
         'specialInstructions' => 'Second door on the left',
         'confirmationEmail' => 'documents@ship.from',
         'booking' => true,
+        'incoTerms' => 2,
     ],
     'meta' => [
         'scheduledProcessing' => true,
