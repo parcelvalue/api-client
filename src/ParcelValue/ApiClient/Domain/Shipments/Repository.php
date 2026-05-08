@@ -9,6 +9,7 @@ use ParcelValue\ApiClient\AbstractRepository;
 use WebServCo\Framework\Environment\Config;
 use WebServCo\Framework\Exceptions\ApplicationException;
 
+use function array_key_exists;
 use function date;
 use function is_array;
 use function sprintf;
@@ -51,7 +52,9 @@ final class Repository extends AbstractRepository
     }
 
     /**
-     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @phpcs:disable SlevomatCodingStandard.Complexity.Cognitive.ComplexityTooHigh
+     * @phpcs:disable SlevomatCodingStandard.Functions.FunctionLength.FunctionLength
+     * @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
      * @param array<mixed> $shipmentConfig
      */
     private function createShipment(array $shipmentConfig): Shipment
@@ -62,6 +65,11 @@ final class Repository extends AbstractRepository
 
         $shipment->setAttribute('shipDate', date(Shipment::DATE_FORMAT, strtotime('next tuesday')));
 
+        if (array_key_exists('attributes', $shipmentConfig) && is_array($shipmentConfig['attributes'])) {
+            if (array_key_exists('collectionLocation', $shipmentConfig['attributes'])) {
+                $this->setShipmentCollectionLocation($shipmentConfig, $shipment);
+            }
+        }
 
         $this->setShipmentShipFrom($shipmentConfig, $shipment);
 
@@ -88,6 +96,21 @@ final class Repository extends AbstractRepository
             (bool) $this->getStringFromArray($shipmentConfig, 'meta', 'scheduledProcessing'),
         );
         $shipment->setService($this->getStringFromArray($shipmentConfig, 'meta', 'service'));
+
+        return $shipment;
+    }
+    /** @phpcs:enable */
+
+    /**
+     * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
+     * @param array<mixed> $shipmentConfig
+     */
+    private function setShipmentCollectionLocation(array $shipmentConfig, Shipment $shipment): Shipment
+    {
+        $shipment->setAttribute(
+            'collectionLocation',
+            $this->getArrayFromArray($shipmentConfig, 'attributes', 'collectionLocation'),
+        );
 
         return $shipment;
     }
