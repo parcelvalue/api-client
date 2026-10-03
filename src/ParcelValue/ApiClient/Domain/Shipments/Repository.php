@@ -99,7 +99,7 @@ final class Repository extends AbstractRepository
 
         return $shipment;
     }
-    /** @phpcs:enable */
+    // phpcs:enable
 
     /**
      * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint

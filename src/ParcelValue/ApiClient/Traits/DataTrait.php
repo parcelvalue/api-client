@@ -45,7 +45,7 @@ trait DataTrait
 
         return $array[$key1][$key2];
     }
-    /** @phpcs:enable */
+    // phpcs:enable
 
     /**
      * @phpcs:ignore SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
