@@ -1,0 +1,3 @@
+includes:
+    - vendor/webservco/coding-standards/phpstan/phpstan.neon
+    - phpstan-baseline.neon

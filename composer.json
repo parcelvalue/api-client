@@ -44,7 +44,7 @@
     "scripts" : {
         "check:lint": "vendor/bin/parallel-lint config public resources src tests",
         "check:phpcs": "vendor/bin/phpcs --standard=.phpcs/php-coding-standard.xml --extensions=php -sp bin config public resources src tests",
-        "check:phpstan": "vendor/bin/phpstan analyse bin config public resources src tests --ansi -c vendor/webservco/coding-standards/phpstan/phpstan.neon",
+        "check:phpstan": "vendor/bin/phpstan analyse bin config public resources src tests --ansi -c phpstan.neon",
         "check": [
             "@check:lint",
             "@check:phpcs",

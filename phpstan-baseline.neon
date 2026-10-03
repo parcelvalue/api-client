@@ -1,0 +1,85 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Offset string might not exist on array\<mixed, mixed\>\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ParcelValue/ApiClient/AbstractController.php
+
+		-
+			message: '#^Offset string might not exist on array\<mixed, mixed\>\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/ParcelValue/ApiClient/AbstractRepository.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationHash\\Command has an uninitialized property \$httpResponse\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationHash/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationHash\\Command has an uninitialized property \$responseContent\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationHash/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationHash\\Command has an uninitialized property \$responseStatus\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationHash/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationToken\\Command has an uninitialized property \$httpResponse\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationToken/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationToken\\Command has an uninitialized property \$responseContent\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationToken/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\AuthenticationToken\\Command has an uninitialized property \$responseStatus\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/AuthenticationToken/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Clients\\Command has an uninitialized property \$httpResponse\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Clients/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Clients\\Command has an uninitialized property \$responseContent\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Clients/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Clients\\Command has an uninitialized property \$responseStatus\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Clients/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Shipments\\Command has an uninitialized property \$httpResponse\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Shipments/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Shipments\\Command has an uninitialized property \$responseContent\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Shipments/Command.php
+
+		-
+			message: '#^Class ParcelValue\\ApiClient\\Domain\\Shipments\\Command has an uninitialized property \$responseStatus\. Give it default value or assign it in the constructor\.$#'
+			identifier: property.uninitialized
+			count: 1
+			path: src/ParcelValue/ApiClient/Domain/Shipments/Command.php
